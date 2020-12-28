@@ -7,7 +7,8 @@ import {
   Heading,
   HStack,
   IconButton,
-  Image,
+  Img,
+  // Image,
   LinkBox,
   Menu,
   MenuButton,
@@ -16,6 +17,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface Props {}
@@ -38,12 +40,17 @@ const Nav: React.FC<Props> = () => {
         alignItems="center"
         justify="space-between"
       >
-        <LinkBox href="/">
+        <a href="/">
           <Flex w="30%" align="center">
-            <Image mr="0.25em" boxSize="3rem" src="/assets/will.svg"></Image>
+            <img
+              height="100"
+              width="100"
+              alt="Drawing of Will's face icon"
+              src="/assets/will.svg"
+            ></img>
             <Text fontWeight="bold">WXW</Text>
           </Flex>
-        </LinkBox>
+        </a>
 
         <Flex
           w="100%"
