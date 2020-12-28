@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Nav from "../components/Nav";
-import Layout from "../components/Layout";
+import Layout from "../layouts/Layout";
 import {
   Box,
   Flex,
