@@ -4,7 +4,7 @@ interface Props {}
 
 const Layout: React.FC<Props> = ({ children }) => {
   return (
-    <Container maxW="100ch" w={["90%", "", "", "100%"]} p="1.5rem">
+    <Container minW="30ch" maxW="100ch" p="1.5rem">
       {" "}
       {children}{" "}
     </Container>
