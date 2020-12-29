@@ -6,10 +6,6 @@ import {
   Flex,
   Heading,
   HStack,
-  IconButton,
-  Img,
-  // Image,
-  LinkBox,
   Menu,
   MenuButton,
   MenuIcon,
@@ -17,24 +13,19 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import Image from "next/image";
+import Router from "next/dist/next-server/lib/router/router";
 import Link from "next/link";
+
+import { NavItems } from "../config/nav";
 
 interface Props {}
 
 const Nav: React.FC<Props> = () => {
   return (
-    <Flex
-      justifyContent="center"
-      w="100%"
-      boxShadow="md"
-      h="4rem"
-      ml="auto"
-      mr="auto"
-    >
+    <Flex justify="center" w="100%" boxShadow="md" h="4rem" ml="auto" mr="auto">
       <Flex
-        w="100%"
         maxW="1024px"
+        w="100%"
         h="100%"
         p="1.5rem"
         alignItems="center"
@@ -43,12 +34,14 @@ const Nav: React.FC<Props> = () => {
         <a href="/">
           <Flex w="30%" align="center">
             <img
-              height="100"
-              width="100"
+              height="80"
+              width="80"
               alt="Drawing of Will's face icon"
               src="/assets/will.svg"
             ></img>
-            <Text fontWeight="bold">WXW</Text>
+            <Text ml="1em" fontWeight="bold">
+              WXW
+            </Text>
           </Flex>
         </a>
 
@@ -59,24 +52,32 @@ const Nav: React.FC<Props> = () => {
           alignItems="center"
         >
           <HStack spacing="1.5rem">
-            <Link href="/blog">Blog</Link>
-            <Link href="/about">About</Link>
+            {NavItems.map((e) => (
+              <Link key={e.label} href={e.ref}>
+                {e.label}
+              </Link>
+            ))}
           </HStack>
         </Flex>
 
-        <Flex display={["flex", "", "none"]}>
+        <Box display={["flex", "", "none"]}>
           <Menu>
-            <MenuButton as={Button}>
+            <MenuButton>
               <HamburgerIcon />
             </MenuButton>
             <MenuList>
-              <MenuItem>
-                <Link href="/blog">Blog</Link>
-              </MenuItem>
-              <MenuItem>About</MenuItem>
+              {NavItems.map((e) => (
+                <MenuItem
+                  onClick={() => {
+                    location.href = e.ref;
+                  }}
+                >
+                  {e.label}
+                </MenuItem>
+              ))}
             </MenuList>
           </Menu>
-        </Flex>
+        </Box>
       </Flex>
     </Flex>
   );
