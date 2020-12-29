@@ -68,6 +68,7 @@ const Nav: React.FC<Props> = () => {
             <MenuList>
               {NavItems.map((e) => (
                 <MenuItem
+                  key={e.label}
                   onClick={() => {
                     location.href = e.ref;
                   }}

@@ -1,19 +1,9 @@
 import Head from "next/head";
-import Link from "next/link";
 import Nav from "../components/Nav";
 import Layout from "../layouts/Layout";
-import {
-  Box,
-  Flex,
-  Heading,
-  Image,
-  SimpleGrid,
-  Spacer,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import BlogCard from "../components/BlogCard";
-import { readdirSync, readFileSync } from "fs";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import PostCard from "../components/PostCard";
+import { readdirSync } from "fs";
 import matter from "gray-matter";
 import { join } from "path";
 import { GetStaticProps } from "next";
@@ -50,7 +40,6 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default function Home({ posts }) {
-  console.log(posts);
   return (
     <div>
       <Head>
@@ -71,10 +60,10 @@ export default function Home({ posts }) {
                 </Text>
               </Box>
             </Flex>
-            <Flex w={["100%", "", "80%", "70%"]} direction="column">
+            <Flex maxW="60ch" direction="column">
               {posts.map((p) => (
-                <Box m="0.25rem">
-                  <BlogCard key={p.title} post={p}></BlogCard>
+                <Box m={2}>
+                  <PostCard key={p.title} post={p}></PostCard>
                 </Box>
               ))}
             </Flex>

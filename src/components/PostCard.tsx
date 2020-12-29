@@ -18,7 +18,7 @@ interface Props {
   post: Post;
 }
 
-const BlogCard: React.FC<Props> = ({ post }) => {
+const PostCard: React.FC<Props> = ({ post }) => {
   return (
     <Flex p="0.25rem" direction="column" minW="30ch">
       <Link href={"/blog/" + post.slug}>
@@ -43,4 +43,4 @@ const BlogCard: React.FC<Props> = ({ post }) => {
   );
 };
 
-export default BlogCard;
+export default PostCard;
