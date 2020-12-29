@@ -2,6 +2,7 @@ import { MinusIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Heading,
   HStack,
@@ -37,8 +38,7 @@ const PostCard: React.FC<Props> = ({ post }) => {
           );
         })}
       </Stack>
-      <br></br>
-      <Text>{post.desc}</Text>
+      <Text mt="0.5rem">{post.desc}</Text>
     </Flex>
   );
 };

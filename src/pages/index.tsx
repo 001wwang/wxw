@@ -52,7 +52,7 @@ export default function Home({ posts }) {
             <br></br>
             <Flex justify="center" align="center">
               <Box maxW="60ch">
-                <Text mb="1em">
+                <Text>
                   Hey, I’m Will! I graduate from the University of Chicago in
                   2021 with a computer science degree.
                   <br></br>
@@ -62,7 +62,7 @@ export default function Home({ posts }) {
             </Flex>
             <Flex maxW="60ch" direction="column">
               {posts.map((p) => (
-                <Box m={2}>
+                <Box m="0.25rem">
                   <PostCard key={p.title} post={p}></PostCard>
                 </Box>
               ))}
