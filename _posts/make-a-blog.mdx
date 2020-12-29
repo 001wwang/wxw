@@ -1,9 +1,9 @@
 ---
-title: Blogging with TypeScript, NextJS, and MDX
+title: Blogging with Next.js and MDX
 date: 12/26/2020
 description:
-  How to build a blog using TypeScript, NextJS, and MDX, a React infused
-  markdown format.
+  How to build a blog using TypeScript, Next.js, and MDX, a JSX infused markdown
+  format.
 tags: ["web development"]
 ---
 
@@ -13,15 +13,25 @@ Before we build anything, it's important to know what we're actually building.
 What is a blog?
 
 For the purposes of this tutorial, **a blog is a collection of written texts**
-where each text can be separately displayed and consumed as a page on a website.
-The collection of texts should be easily modifiable (e.g. create post, delete
-post, update post). That's probably what you already had in mind. I don't mean
-to oversimplify; I just like to set expectations straight.
+where each text can be separately displayed as a page on a website. The
+collection of texts should be easily modifiable (e.g. create post, delete post,
+update post). That's probably what you already had in mind, and I don't mean to
+oversimplify. I just like to set expectations straight.
 
 I'm going to show you how to build a blog that excels in three areas.
 
-1. All Markdown based editing  
-   Markdown is ubiquitous. Beautiful online and offline text editors are readily
-   available for you to use to actually write your posts.
+1.  **All Markdown based editing**
 
-2.
+    Markdown is ubiquitous. Online and offline text editors are readily
+    available for you to use to craft your posts.
+
+2.  **Statically served**
+
+    Pages are generated at build-time using Next.js static site generation
+    tooling. Your readers won't be bogged down by the blog.
+
+3.  **Gets out of your way**
+
+    Ultimately, blogging isn't about the website. It's about the content. This
+    blog features an easy publishing pipeline, so you can focus on what matters.
+    Drop MDX files into a folder, and you're set.
