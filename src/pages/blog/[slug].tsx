@@ -1,11 +1,21 @@
-import { Box, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  List,
+  ListItem,
+  propNames,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { readdirSync, readFileSync } from "fs";
 import matter from "gray-matter";
 import hydrate from "next-mdx-remote/hydrate";
 import renderToString from "next-mdx-remote/render-to-string";
 import { join } from "path";
-import Layout from "../../components/Layout";
+import Layout from "../../layouts/Layout";
 import Nav from "../../components/Nav";
+import MDXComponents from "../../components/MDXComponents";
 
 export const getStaticPaths = async () => {
   const blogPostSlugs = readdirSync("_posts").map((f) => ({
@@ -31,14 +41,16 @@ export const getStaticProps = async ({ params }) => {
 };
 
 const Post = ({ slug, source }) => {
-  const mdxContent = hydrate(source, { components: {} });
+  const mdxContent = hydrate(source, {
+    components: { ...MDXComponents },
+  });
   return (
     <Box>
       <Nav></Nav>
       <Layout>
-        <Flex direction="column" w="100%" align="center">
-          <Flex direction="column" maxW="70ch">
-            {mdxContent}
+        <Flex w="100%" justify="center">
+          <Flex direction="column" maxW="60ch">
+            <Box className="mdx-prose">{mdxContent}</Box>
           </Flex>
         </Flex>
       </Layout>
