@@ -1,3 +1,4 @@
+import { MinusIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -5,7 +6,11 @@ import {
   Heading,
   HStack,
   Link,
+  ListItem,
+  Stack,
+  Tag,
   Text,
+  UnorderedList,
 } from "@chakra-ui/react";
 import type { Post } from "../pages/index";
 
@@ -15,31 +20,25 @@ interface Props {
 
 const BlogCard: React.FC<Props> = ({ post }) => {
   return (
-    <Flex p="1rem" direction="column">
-      <Flex
-        w="100%"
-        direction={["column", "row", "row"]}
-        justify="space-between"
-      >
-        <Link href={"/blog/" + post.slug}>
-          <Heading size="md">{post.title}</Heading>
-        </Link>
-      </Flex>
-      <HStack>
+    <Flex p="0.25rem" direction="column" minW="30ch">
+      <Link href={"/blog/" + post.slug}>
+        <Heading size="md">{post.title}</Heading>
+      </Link>
+
+      <Stack direction="row">
         <Text fontWeight="bold" color="gray.400">
-          {post.date}
+          {post.date.slice(4)}
         </Text>
         {post.tags.map((t) => {
           return (
-            <Text size="xs" color="gray.400">
+            <Text key={post.slug} color="green.400">
               {t}
             </Text>
           );
         })}
-      </HStack>
+      </Stack>
       <br></br>
       <Text>{post.desc}</Text>
-      <br></br>
     </Flex>
   );
 };
