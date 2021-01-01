@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Nav from "../components/Nav";
 import Layout from "../layouts/Layout";
 import { Box, Flex, Text } from "@chakra-ui/react";
@@ -42,9 +41,6 @@ export const getStaticProps: GetStaticProps = async () => {
 export default function Home({ posts }) {
   return (
     <div>
-      <Head>
-        <title>Will Wang</title>
-      </Head>
       <Nav></Nav>
       <Layout>
         <Flex direction={["column", "column", "row"]}>

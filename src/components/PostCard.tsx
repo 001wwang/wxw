@@ -1,18 +1,5 @@
 import { MinusIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  HStack,
-  Link,
-  ListItem,
-  Stack,
-  Tag,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import type { Post } from "../pages/index";
 
 interface Props {

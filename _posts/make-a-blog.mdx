@@ -2,7 +2,7 @@
 title: Blogging with Next.js and MDX
 date: 12/26/2020
 description:
-  How to build a blog using TypeScript, Next.js, and MDX, a JSX infused markdown
+  How to build a blog using Next.js, TypeScript, and MDX, a JSX infused markdown
   format.
 tags: ["web development"]
 ---
@@ -18,20 +18,326 @@ collection of texts should be easily modifiable (e.g. create post, delete post,
 update post). That's probably what you already had in mind, and I don't mean to
 oversimplify. I just like to set expectations straight.
 
-I'm going to show you how to build a blog that excels in three areas.
+I'm going to show you how to build a blog that excels in
 
-1.  **All Markdown based editing**
+1.  **Markdown based editing**
 
     Markdown is ubiquitous. Online and offline text editors are readily
     available for you to use to craft your posts.
 
-2.  **Statically served**
+2.  **Getting out of your way**
 
-    Pages are generated at build-time using Next.js static site generation
-    tooling. Your readers won't be bogged down by the blog.
+    Blogging isn't about the website. It's about the content. This blog makes
+    publishing as easy as dropping MDX files into a folder and pushing those
+    files up to Github (presuming you deploy on Vercel or a similar hosting
+    service).
 
-3.  **Gets out of your way**
+3.  **Fast set up and customization**
 
-    Ultimately, blogging isn't about the website. It's about the content. This
-    blog features an easy publishing pipeline, so you can focus on what matters.
-    Drop MDX files into a folder, and you're set.
+    This guide isn't very long. I'm constantly amazed by the packages and
+    tooling freely available online to build complex services: blogging is no
+    exception. You're going to stitch together a few useful packages that will
+    handle most of the work. From there, your creativity is the limit.
+
+# FAQ
+
+- Why Next.js instead of [insert JavaScript framework here]?
+
+I can't provide an exceptional answer to this question beyond. Next.js does a
+lot out of the box. You don't have to deal with a lot of configuration to get
+static and server rendering of pages (good for performance), TypeScript support
+(good for development experience), bundling (good for performance), route
+creation (good for development experience), etc. Check out the
+[official website](nextjs.org) for more.
+
+When I was getting started, I focused too much on the "right" framework. There
+is no "right" framework. One of the best (and worst?) things about web
+development is that you're allowed to have opinions. Choose the JavaScript
+framework that lets you focus on more important things: the product, the
+algorithms, the special sauce. Next.js isn't the only one that does a lot for
+you out-of-the-box, so it might come down to ergonomics. How does it feel?
+
+- Why MDX?
+
+Think of MDX as Markdown + code! It'll let you enrich the written word with
+interactive experiences that help set your blog apart. Of course, feel free to
+forget MDX and use regular markdown. MDX isn't necessary if you're only worried
+about prose.
+
+- Why build instead of [buy/clone/etc.]?
+
+No other reason than to learn and have fun! There are thousands of
+production-ready services and templates out there for blogging, and that's going
+to be the fastest way to start.
+
+# Setting Up:
+
+## Next.js with TypeScript
+
+Get a Next.js project set up on your machine by running
+
+```shell
+npx create-next-app [your-directory-name]
+```
+
+in your terminal. This takes care of a lot of boilerplate configuration on our
+behalf, setting up all the necessary tooling and packages for us to begin
+development.
+
+To get TypeScript going,
+
+```shell
+touch tsconfig.json
+```
+
+in your root directory, and run `yarn dev` to start a development server. It
+should prompt you with a command to install the necessary TypeScript packages.
+An example is below.
+
+```shell
+yarn add -D typescript @types/react @types/node
+```
+
+All set!
+
+## MDX
+
+There are two options for creating posts with MDX.
+
+1.  `next/mdx`
+
+    You can use the `next/mdx` package and create posts with a .mdx extension in
+    the standard `pages` folder of your project. These blog posts will be
+    automatically routed and served like any other page.
+
+2.  `next-mdx-remote` (or similar)
+
+    You can pull posts from some other source (remote storage, elsewhere on your
+    file system, etc.) via `next-mdx-remote`. Then, we can create a dynamic
+    route in `pages` that will be configured to display each of your posts.
+
+I'll show you the latter as it offers more flexibilty and may serve more use
+cases. Go ahead and run
+
+```shell
+yarn add next-mdx-remote
+```
+
+to pull `next-mdx-remote` into the project.
+
+## Create Example Post
+
+Write an MDX post or two as samples to use for the rest of this guide. It's
+helpful to have some testing data to follow along with.
+
+I'll assume you have these posts in a folder named `posts`.
+
+# Building:
+
+## Create a dynamic route
+
+Part of Next.js magic is its ability to create routes automatically from the
+files in your `pages` folder. For example, a file named `about.tsx` will
+automatically create a route on your website `[website]/about` that displays the
+React component exported from `about.tsx`. This is a **static route**, meaning
+the filename dictates the route name.
+
+We're going to use a **dynamic route** meaning the URL will be generated
+according to some variable data. In this case, we want our posts to show up at
+the URL `/blog/[postname]` where `[postname]` is a variable representing the
+filenames of our posts.
+
+You might see some documentation refer to a post's "slug" when talking about
+dynamic routing for blogs. Slug is just a journalistic term for the name of an
+article.
+
+Create this file structure in `pages`: `/pages/blog/[postname].tsx` (a folder
+named `blog` and a file named `[postname].tsx`, and the brackets _are_
+necessary).
+
+## Implement getStaticPaths()
+
+In `[postname].tsx`, we're going to implement and export a function called
+`getStaticPaths` which Next.js will use to determine how the paths for this file
+will be created. Remember, we want our paths to be our post names, and our post
+names are simply the filenames (minus the extension) of our .mdx posts.
+
+Thus, we need to read the `posts` directory, and get the filenames of all our
+posts. Luckily, Node exposes a simple filesystem utility function
+`readdirSync()` which will do exactly that.
+
+```
+readdirSync("posts") // read the posts folder and return filename strings
+```
+
+`getStaticPaths` returns an object with two parameters: `paths` and `fallback`.
+We'll set `fallback` to false (this means any path not specified in the `paths`
+param will lead to a 404 error). `paths` is an array of objects where each
+object is structured as
+
+```
+{
+    params: {
+        [insert route variable]: [insert value]
+    }
+}
+```
+
+Our "route variable" is `postname` and the corresponding values will be the
+filenames.
+
+Clearly, the vanilla output of `readdirSync` does not work as a return value.
+We'll use JavaScript's `map` to transform the output into the value expected by
+`paths`.
+
+```
+const postnames = readdirSync("posts").map((f) => ({
+    params: { postname: f.replace(".mdx", "") }, // get rid of the file extension
+  }));
+```
+
+We can then return the necessary object with `paths` mapping to `postnames`. The
+full code is below.
+
+```javascript
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postnames = readdirSync("posts").map((f) => ({
+    params: { postname: f.replace(".mdx", "") },
+  }));
+
+  return {
+    paths: postnames,
+    fallback: false,
+  };
+};
+```
+
+## Implement getStaticProps()
+
+If you try to navigate to `[localhost]/blog/[some postname]` now, you'll still
+get an error.
+
+`getStaticPaths` actually feeds into `getStaticProps` which passes React props
+into the component exported by our `[postname].tsx` file. We must have at least
+some implementation of `getStaticPaths` for us to visit
+`[localhost]/blog/[some postname]`.
+
+A minimal skeleton would look like
+
+```javascript
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  // params comes from our getStaticPaths implementation
+  return {
+    props: {},
+  };
+};
+```
+
+What should we actually do in `getStaticProps`? The function is run server side
+(at build time) to fetch data needed to render your page. We need post data to
+render our post page. Thus, we'll read the post from our local `posts` folder
+and pass it as a return value in `props`. Note that this is also where you could
+fetch your posts from a Content Management System, database, or other remote
+storage.
+
+We use `readFileSync`, another Node-provided utility, to read our post file in
+as a buffer.
+
+```javascript
+readFileSync(join(params.postname + ".mdx"));
+```
+
+And now it's finally time to introduce `next-mdx-remote`. Two core functions
+exposed by `next-mdx-remote` let us read MDX content (formatted as a string) and
+later hydrate MDX with functionality. We read the content in `getStaticProps`
+and hydrate the content in the exported component for this page (the
+`[postname].tsx` page). Read more about next-mdx-remote
+[here](https://github.com/hashicorp/next-mdx-remote).
+
+In other words, we call `renderToString` on our file contents, and return the
+output as a prop.
+
+```javascript
+// renderToString returns a Promise which cannot be returned, thus await it
+const mdxSource = await renderToString(
+  // convert to string as readFileSync returns a buffer
+  readFileSync(join(params.postname + ".mdx")).toString()
+);
+```
+
+Finally, we return `mdxSource` within the props that our component will receive.
+Fully, this looks like
+
+```javascript
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const mdxSource = await renderToString(
+    readFileSync(join("posts", params.postname + ".mdx")).toString()
+  );
+
+  return {
+    props: { src: mdxSource },
+  };
+};
+```
+
+## Create a Post Component
+
+Lastly, we need to create a component containing our MDX content. We'll keep it
+simple for the sake of this guide, but it'd be easy to continue building a nice
+layout, styling, etc. for posts.
+
+First, let's call `hydrate` on the `src` prop that we retrieve from
+`getStaticProps`. `hydrate` is run on client side, and effectively loads the
+JavaScript necessary to run any components that you've included in your MDX.
+We'll take its return value and use it within our component.
+
+```javascript
+// the second arg for hydrate is any components you've included in your MDX files
+// keeping it simple, we'll not include any for now
+const content = hydrate(src, { components: {} });
+```
+
+We're effectively all set! We can build a simple skeleton component (some
+`div`'s) and some styling to view our post with. In full, our component looks
+like
+
+```javascript
+const Post: React.FC<Props> = ({ src }) => {
+  const content = hydrate(src, { components: {} });
+  return (
+    <div className="blog">
+      <div className="post">{content}</div>
+    </div>
+  );
+};
+```
+
+Our simple styling to center the content looks like
+
+```css
+.blog {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 60ch;
+}
+```
+
+I've included the styling in the `globals.css` file that Next.js auto-generates
+during the `create-next-app` process.
+
+And, you're done! When you view `[localhost]/blog/[postname]` on your
+development server, you should see your blog post rendered to the screen. It
+might be a little barebones, but now its up to you to play around and
+experiment!
+
+Here's my end result.
+
+<div style={{ outline: "2px dashed black" }}>
+  <img src="../simple-blog.png" />
+</div>
