@@ -52,13 +52,12 @@ export default function Home({ posts }) {
                   Hey, I’m Will! I graduate from the University of Chicago in
                   2021 with a computer science degree.
                   <br></br>
-                  <br></br>
                 </Text>
               </Box>
             </Flex>
             <Flex maxW="60ch" direction="column">
               {posts.map((p) => (
-                <Box m="0.25rem">
+                <Box key={p.title} m="0.25rem">
                   <PostCard key={p.title} post={p}></PostCard>
                 </Box>
               ))}
