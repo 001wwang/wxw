@@ -1,5 +1,5 @@
 import { Box, chakra } from "@chakra-ui/react";
-import Highlight, { defaultProps } from "prism-react-renderer";
+import Highlight, { defaultProps, Language } from "prism-react-renderer";
 import github from "prism-react-renderer/themes/github";
 
 interface Props {
@@ -7,9 +7,9 @@ interface Props {
 }
 
 const CodeBlock: React.FC<Props> = ({ className, children }) => {
-  let lang = "markdown";
+  let lang: Language = "markdown";
   if (typeof className !== "undefined") {
-    lang = className.replace(/language-/, "");
+    lang = className.replace(/language-/, "") as Language;
   }
 
   return (
@@ -20,7 +20,6 @@ const CodeBlock: React.FC<Props> = ({ className, children }) => {
       theme={github}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => {
-        console.log(tokens);
         return (
           <chakra.pre
             className={className}
