@@ -30,7 +30,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const parsedMarkdown = matter.read(join("_posts", params.slug + ".mdx"));
-  const mdxSource = await renderToString(parsedMarkdown.content);
+  const mdxSource = await renderToString(parsedMarkdown.content, {
+    components: { ...MDXComponents },
+  });
 
   return {
     props: {

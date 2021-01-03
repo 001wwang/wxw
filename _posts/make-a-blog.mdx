@@ -76,7 +76,7 @@ to be the fastest way to start.
 
 Get a Next.js project set up on your machine by running
 
-```shell
+```bash
 npx create-next-app [your-directory-name]
 ```
 
@@ -86,7 +86,7 @@ development.
 
 To get TypeScript going,
 
-```shell
+```bash
 touch tsconfig.json
 ```
 
@@ -94,7 +94,7 @@ in your root directory, and run `yarn dev` to start a development server. It
 should prompt you with a command to install the necessary TypeScript packages.
 An example is below.
 
-```shell
+```bash
 yarn add -D typescript @types/react @types/node
 ```
 
@@ -166,8 +166,8 @@ Thus, we need to read the `posts` directory, and get the filenames of all our
 posts. Luckily, Node exposes a simple filesystem utility function
 `readdirSync()` which will do exactly that.
 
-```
-readdirSync("posts") // read the posts folder and return filename strings
+```typescript
+readdirSync("posts"); // read the posts folder and return filename strings
 ```
 
 `getStaticPaths` returns an object with two parameters: `paths` and `fallback`.
@@ -175,7 +175,7 @@ We'll set `fallback` to false (this means any path not specified in the `paths`
 param will lead to a 404 error). `paths` is an array of objects where each
 object is structured as
 
-```
+```json
 {
     params: {
         [insert route variable]: [insert value]
@@ -190,25 +190,22 @@ Clearly, the vanilla output of `readdirSync` does not work as a return value.
 We'll use JavaScript's `map` to transform the output into the value expected by
 `paths`.
 
-```
+```typescript
 const postnames = readdirSync("posts").map((f) => ({
-    params: { postname: f.replace(".mdx", "") }, // get rid of the file extension
-  }));
+  params: { postname: f.replace(".mdx", "") }, // get rid of the file extension
+}));
 ```
 
 We can then return the necessary object with `paths` mapping to `postnames`. The
 full code is below.
 
-```javascript
+```typescript
 export const getStaticPaths: GetStaticPaths = async () => {
   const postnames = readdirSync("posts").map((f) => ({
     params: { postname: f.replace(".mdx", "") },
   }));
 
-  return {
-    paths: postnames,
-    fallback: false,
-  };
+  return { paths: postnames, fallback: false };
 };
 ```
 
@@ -224,7 +221,7 @@ some implementation of `getStaticPaths` for us to visit
 
 A minimal skeleton would look like
 
-```javascript
+```typescript
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   // params comes from our getStaticPaths implementation
   return {
@@ -243,7 +240,7 @@ storage.
 We use `readFileSync`, another Node-provided utility, to read our post file in
 as a buffer.
 
-```javascript
+```typescript
 readFileSync(join(params.postname + ".mdx"));
 ```
 

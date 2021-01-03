@@ -1,5 +1,7 @@
 import { chakra, Link } from "@chakra-ui/react";
 
+import CodeBlock from "./CodeBlock";
+
 const MDXComponents = {
   h1: (props) => <chakra.h1 apply="mdx.h1" {...props} />,
   h2: (props) => <chakra.h2 apply="mdx.h2" {...props} />,
@@ -10,7 +12,7 @@ const MDXComponents = {
   li: (props) => <chakra.li pb="1rem" {...props} />,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   a: (props) => <chakra.a apply="mdx.a" {...props} />,
-  code: (props) => <chakra.code apply="mdx.code" {...props} />,
+  code: CodeBlock,
 };
 
 export default MDXComponents;
