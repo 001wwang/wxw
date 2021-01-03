@@ -10,6 +10,7 @@ const MDXComponents = {
   li: (props) => <chakra.li pb="1rem" {...props} />,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   a: (props) => <chakra.a apply="mdx.a" {...props} />,
+  code: (props) => <chakra.code apply="mdx.code" {...props} />,
 };
 
 export default MDXComponents;

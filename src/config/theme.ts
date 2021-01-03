@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { Z_BLOCK } from "zlib";
 
 const theme = extendTheme({
   fonts: {
@@ -13,7 +14,7 @@ const theme = extendTheme({
       mb: "0.25rem",
     },
     h2: {
-      mt: "4rem",
+      mt: "1rem",
       mb: "0.5rem",
       lineHeight: 1.3,
       fontWeight: "semibold",
@@ -24,7 +25,7 @@ const theme = extendTheme({
       },
     },
     h3: {
-      mt: "3rem",
+      mt: "0.75rem",
       mb: "0.5rem",
       lineHeight: 1.25,
       fontWeight: "semibold",
@@ -32,7 +33,7 @@ const theme = extendTheme({
       letterSpacing: "-.025em",
     },
     h4: {
-      mt: "3rem",
+      mt: "0.75rem",
       lineHeight: 1.375,
       fontWeight: "semibold",
       fontSize: "1.125rem",
@@ -51,20 +52,20 @@ const theme = extendTheme({
       },
     },
     ul: {
-      mt: "1.5",
-      ml: "4",
+      mt: "1rem",
+      ml: "1rem",
       "blockquote &": { mt: 0 },
       "& > * + *": {
         mt: "0.25rem",
       },
     },
     code: {
-      rounded: "sm",
-      px: "1",
-      fontSize: "0.875em",
-      py: "2px",
-      whiteSpace: "nowrap",
+      rounded: "md",
+      fontSize: "0.875rem",
       lineHeight: "normal",
+      display: "block",
+      bg: "gray.100",
+      p: "1rem",
     },
   },
 });

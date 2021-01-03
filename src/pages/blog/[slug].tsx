@@ -35,21 +35,24 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       slug: params.slug,
+      mdata: parsedMarkdown.data,
       source: mdxSource,
     },
   };
 };
 
-const Post = ({ slug, source }) => {
+const Post = ({ slug, mdata, source }) => {
   const mdxContent = hydrate(source, {
     components: { ...MDXComponents },
   });
+
   return (
     <Box>
       <Nav></Nav>
       <Layout>
         <Flex w="100%" justify="center">
-          <Flex direction="column" maxW="60ch">
+          <Flex direction="column" maxW="70ch">
+            <Heading>{mdata.title}</Heading>
             <Box className="mdx-prose">{mdxContent}</Box>
           </Flex>
         </Flex>

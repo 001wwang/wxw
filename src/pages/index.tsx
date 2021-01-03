@@ -57,7 +57,7 @@ export default function Home({ posts }) {
             </Flex>
             <Flex maxW="60ch" direction="column">
               {posts.map((p) => (
-                <Box key={p.title} m="0.25rem">
+                <Box key={p.title}>
                   <PostCard key={p.title} post={p}></PostCard>
                 </Box>
               ))}
